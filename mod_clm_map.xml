@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1.0" client="site" method="upgrade">
+    <name>CLM Map Modul</name>
+    <author>CLM Team</author>
+    <version>0.1.0</version>
+    <description>MOD_CLM_MAP_DESCRIPTION</description>
+    <creationDate>13.07.2024</creationDate>
+    <license>GNU/GPL</license>
+
+    <!-- Frontend files-->
+    <files>
+        <folder>language</folder>
+        <folder>leaflet</folder>
+        <filename>mod_clm_map.xml</filename>
+        <filename module="mod_clm_map">mod_clm_map.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+    </files>
+    <languages folder="language">
+        <language tag="de-DE">de-DE/de-DE.mod_clm_map.sys.ini</language>
+        <language tag="de-DE">de-DE/de-DE.mod_clm_map.ini</language>
+        <language tag="en-GB">en-GB/en-GB.mod_clm_map.sys.ini</language>
+        <language tag="en-GB">en-GB/en-GB.mod_clm_map.ini</language>
+    </languages>
+
+    <!-- Installation Files-->
+    <scriptfile>mod_clm_map_install.php</scriptfile>
+
+    <!-- Configuartion -->
+    <config>
+    <fields name="params">
+        <fieldset name="basic" label="basic">
+            
+            <field type="spacer" name="spacerMap" label="MOD_CLM_MAP_MAP_CONFIG_HEADER" class="text"/>
+
+            <field
+                name="height"
+                type="text"
+                label="MOD_CLM_MAP_MAP_HEIGTH"
+                description="MOD_CLM_MAP_MAP_HEIGTH_DESC"
+                default="500"
+            />
+
+            <field
+                name="dragging"
+                type="checkbox"
+                label="MOD_CLM_MAP_MAP_DRAGGING"
+                description="MOD_CLM_MAP_MAP_DRAGGING_DESC"
+                value="1"
+            />   
+
+            <field
+                name="scrollWheelZoom"
+                type="checkbox"
+                label="MOD_CLM_MAP_MAP_ZOOM_WHEEL"
+                description="MOD_CLM_MAP_MAP_ZOOM_WHEEL_DESC"
+                value="0"
+            />  
+        </fieldset>
+    </fields>
+    </config>
+    <install>
+    </install>
+
+    <uninstall>
+    </uninstall>
+
+    <update> 
+    </update>
+
+</extension>
