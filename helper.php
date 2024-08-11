@@ -60,7 +60,7 @@ class ModCLMMapHelper
          //Obtain database connection
          $db = JFactory::getDbo();
          // Query to get a list of clubs for the specified season
-         $query = "SELECT zps, name, ST_AsText(lokal_coord) AS lokal_coord_text "
+         $query = "SELECT zps, name, lokal_coord "
          . " FROM #__clm_vereine "
          . " WHERE sid = $seasonID AND published = 1";
          $db->setQuery($query);
@@ -81,7 +81,7 @@ private static function convertArray($clubList)
 {
     // Extract coordinates
     foreach ($clubList as $club) {
-        $coord_text = $club->lokal_coord_text;
+        $coord_text = $club->lokal_coord;
         $coordinates = self::extractCoordinatesFromText($coord_text);
         $club->lokal_coord_lat = $coordinates[0];
         $club->lokal_coord_long = $coordinates[1];
