@@ -40,7 +40,6 @@ class mod_clm_mapInstallerScript
 	 */
 	function update($parent) 
 	{
-//		echo JText::_('MOD_CLM_MAP_UPDATE') . $parent->get('manifest')->version;
 		echo JText::_('MOD_CLM_MAP_UPDATE') . $parent->getManifest()->version;
 	}
 

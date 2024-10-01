@@ -10,7 +10,7 @@
     <!-- Frontend files-->
     <files>
         <folder>language</folder>
-        <folder>leaflet</folder>
+        <folder>lib</folder>
         <filename>mod_clm_map.xml</filename>
         <filename module="mod_clm_map">mod_clm_map.php</filename>
         <filename>index.html</filename>
@@ -57,7 +57,57 @@
                 label="MOD_CLM_MAP_MAP_ZOOM_WHEEL"
                 description="MOD_CLM_MAP_MAP_ZOOM_WHEEL_DESC"
                 value="0"
-            />  
+            /> 
+            <field name="popup_mode" type="radio" default="1" label="MOD_CLM_MAP_POPUP_MODE">
+                <option value="0">MOD_CLM_MAP_POPUP_MODE_MOUSEOVER</option>
+                <option value="1">MOD_CLM_MAP_POPUP_MODE_CLICK</option>
+            </field>
+
+            <field type="spacer" name="spacerModule" label="MOD_CLM_MAP_MODULE_CONFIG_HEADER" class="text"/>
+
+            <field name="module_mode" type="radio" default="1" label="MOD_CLM_MAP_MODULE_MODE">
+                <option value="0">MOD_CLM_MAP_TEAM</option>
+                <option value="1">MOD_CLM_MAP_CLUBS</option>
+            </field>
+
+            <field 
+                name="liga"
+                type="sql"
+                label="MOD_CLM_MAP_MODULE_LEAGUE"
+                multiple="true"
+                required="false"
+                query="SELECT id, name  FROM #__clm_liga
+                WHERE sid = (
+                    SELECT id
+                    FROM #__clm_saison
+                    WHERE published = 1 AND archiv = 0
+                    ORDER BY name DESC
+                    LIMIT 1
+                );"
+                key_field="id"
+                value_field="name"
+                showon="module_mode:0"
+                />
+
+                <field
+                    name="grouping_liga"
+                    type="checkbox"
+                    label="MOD_CLM_MAP_MODE_GROUPING_LEAGUE"
+                    value="1"
+                    showon="module_mode:0"
+                />   
+
+        <field
+                name="grouping_vereine" 
+                type="list" 
+                default="0" 
+                label="MOD_CLM_MAP_MODE_GROUPING" 
+                description=""
+                showon="module_mode:1">
+                <option value="0">MOD_CLM_MAP_MODE_GROUPING_NO</option>
+                <option value="1">MOD_CLM_MAP_MODE_GROUPING_BEZIRK</option>
+                <option value="2">MOD_CLM_MAP_MODE_GROUPING_LAND</option>
+        </field>
         </fieldset>
     </fields>
     </config>
