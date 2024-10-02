@@ -19,7 +19,7 @@ require_once dirname(__FILE__) . '/helper.php';
 
 // Include scripts and set style 
 $document = JFactory::getDocument();
-//$document->addScript(JURI::root(true) . '/modules/mod_clm_map/lib/js-colormaps.js');
+
 $document->addScript(JURI::root(true) . '/modules/mod_clm_map/lib/svg-marker.js');
 $document->addScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
 $document->addStyleSheet('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
@@ -29,12 +29,6 @@ $document->addScript('https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet
 
 $document->addStyleDeclaration( modCLMMapHelper::style($params, $module->id) );
 
-/**
- * This code retrieves the season ID and fetches the club list based on the season ID.
- * It then checks if the club list is null or not. If it is null, it displays an error message.
- * If the club list is not null, it calls the makeMap function to generate the JavaScript code for the map.
- * Finally, it includes the layout file for the mod_clm_map module.
- */
 
 // Get mode
 $moduleMode = $params->get('module_mode');
