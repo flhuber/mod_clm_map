@@ -298,7 +298,7 @@ private static function getValueFromDiscreteArray($array, $fraction){
     // Calculate the index (0 to count($array) - 1)
     $index = round($fraction * (count($array) - 1));
     //Convert to full RGB
-    $rgb = array_map(fn($color) => array_map(fn($c) => round($c * 255), $color), $array[$index]);
+    $rgb = array_map(fn($c) => round($c * 255), $array[$index]);
     // Return the value at the calculated index
     return $rgb;
 }
@@ -324,24 +324,24 @@ private static function getValueFromInterpolatedArray($array, $fraction){
 /**
  * Returns an array of colors based on the given count.
  *
- * If the count is less than or equal to 20, the function uses the tab20 color array.
+ * If the num is less than or equal to 20, the function uses the tab20 color array.
  * Otherwise, it uses the gnuplot color array (which can be interpolated) for more than 20 entries.
  *
- * @param int $count The number of colors needed.
+ * @param int $num The number of colors needed.
  * @return array An array of colors in hexadecimal format.
  */
-private static function getColorArray($count){   
+private static function getColorArray($num){   
     $colorArray = array(); 
-    if ($count <= 20) //Use tab20 
+    if ($num <= 20) //Use tab20 
     {
-        for ($i = 0; $i < $count; $i++){
-            $colorArray[$i] = self::getValueFromDiscreteArray(self::tab20, $i/$count);
+        for ($i = 0; $i < $num; $i++){
+            $colorArray[$i] = self::getValueFromDiscreteArray(self::tab20, $i/$num);
         }
     }   
     else //Use gnuplot (can be interpolated) for more than 20 entries
     {
-        for ($i = 0; $i < $count; $i++){
-            $colorArray[$i] = self::getValueFromInterpolatedArray(self::gnuplot, $i/$count);
+        for ($i = 0; $i < $num; $i++){
+            $colorArray[$i] = self::getValueFromInterpolatedArray(self::gnuplot, $i/$num);
         }
     }
 
@@ -411,7 +411,7 @@ public static function makeLeagueMap($params, $queriedEntries, $id){
 /**
  * Generates a JavaScript code for creating a club map.
  *
- * @param array $params Module settings.
+ * @param object $params Module settings.
  * @param array $queriedEntries The queried entries for adding markers and popups.
  * @param int $id The ID of the map.
  * @return string The JavaScript code for creating the club map.
