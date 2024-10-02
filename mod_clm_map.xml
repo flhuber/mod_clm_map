@@ -65,6 +65,11 @@
 
             <field type="spacer" name="spacerModule" label="MOD_CLM_MAP_MODULE_CONFIG_HEADER" class="text"/>
 
+            <field name="remove_coordinates" type="radio" default="1" label="MOD_CLM_MAP_REMOVE_COORDINATES">
+                <option value="0">MOD_CLM_MAP_REMOVE_NO</option>
+                <option value="1">MOD_CLM_MAP_REMOVE_YES</option>
+            </field>
+
             <field name="module_mode" type="radio" default="1" label="MOD_CLM_MAP_MODULE_MODE">
                 <option value="0">MOD_CLM_MAP_TEAM</option>
                 <option value="1">MOD_CLM_MAP_CLUBS</option>
@@ -89,13 +94,13 @@
                 showon="module_mode:0"
                 />
 
-                <field
-                    name="grouping_liga"
-                    type="checkbox"
-                    label="MOD_CLM_MAP_MODE_GROUPING_LEAGUE"
-                    value="1"
-                    showon="module_mode:0"
-                />   
+            <field
+                name="grouping_liga"
+                type="checkbox"
+                label="MOD_CLM_MAP_MODE_GROUPING_LEAGUE"
+                value="1"
+                showon="module_mode:0"
+            />   
 
         <field
                 name="grouping_vereine" 
@@ -107,6 +112,37 @@
                 <option value="0">MOD_CLM_MAP_MODE_GROUPING_NO</option>
                 <option value="1">MOD_CLM_MAP_MODE_GROUPING_BEZIRK</option>
                 <option value="2">MOD_CLM_MAP_MODE_GROUPING_LAND</option>
+        </field>
+        <field
+                name="grouping_bezirk" 
+                type="sql" 
+                default="0" 
+                multiple="true"
+                label="MOD_CLM_MAP_MODE_GROUPING_BEZIRK_SELECT" 
+                description=""
+                showon="grouping_vereine:1"
+                query="SELECT DISTINCT d.Verband AS id, d.Verbandname AS name
+                        FROM #__clm_vereine v
+                        JOIN #__clm_dwz_verbaende d
+                        ON SUBSTRING(v.zps, 1, 3) = d.Verband"
+                key_field="id"
+                value_field="name">
+        </field>
+        <field
+                name="grouping_land" 
+                type="sql" 
+                default="0" 
+                multiple="true"
+                label="MOD_CLM_MAP_MODE_GROUPING_LAND_SELECT" 
+                description=""
+                showon="grouping_vereine:2"
+                query="SELECT DISTINCT d.LV AS id, d.Verbandname AS name
+                        FROM #__clm_vereine v
+                        JOIN #__clm_dwz_verbaende d
+                        ON SUBSTRING(v.zps, 1, 1) = d.LV
+                        WHERE d.Uebergeordnet = '000'"
+                key_field="id"
+                value_field="name">
         </field>
         </fieldset>
     </fields>

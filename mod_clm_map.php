@@ -21,6 +21,11 @@ require_once dirname(__FILE__) . '/helper.php';
 $document = JFactory::getDocument();
 //$document->addScript(JURI::root(true) . '/modules/mod_clm_map/lib/js-colormaps.js');
 $document->addScript(JURI::root(true) . '/modules/mod_clm_map/lib/svg-marker.js');
+$document->addScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
+$document->addStyleSheet('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+$document->addStyleSheet('https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css');
+$document->addStyleSheet('https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css');
+$document->addScript('https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js');
 
 $document->addStyleDeclaration( modCLMMapHelper::style($params, $module->id) );
 
@@ -43,7 +48,7 @@ if ($moduleMode == '0') // Show teams of leagues
     else{
         $queriedEntries = modCLMMapHelper::getTeamList($selectedEntries, $params);
         if ($queriedEntries == null) {
-            $js = "console.log('CLM Map: Could not retrieve clubs with set coordinates!');";
+            $js = "console.log('CLM Map: Could not retrieve teams with set coordinates!');";
         } else {
             $js = modCLMMapHelper::makeLeagueMap($params, $queriedEntries, $module->id);
         }
@@ -52,8 +57,12 @@ if ($moduleMode == '0') // Show teams of leagues
 }
 else //Show clubs
 {
-    //Plausability check
-    //$selectedEntries = $params->get('liga');
+    $queriedEntries = modCLMMapHelper::getClubList($params);
+    if ($queriedEntries == null) {
+        $js = "console.log('CLM Map: Could not retrieve clubs with set coordinates!');";
+    } else {
+        $js = modCLMMapHelper::makeClubMap($params, $queriedEntries, $module->id);
+    }
 }
 
 // Darstellen
