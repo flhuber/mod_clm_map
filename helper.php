@@ -95,7 +95,7 @@ class ModCLMMapHelper
                 LIMIT 1);";
         }
         // Case 2: Get clubs of selected Bezirk or Landesverband
-        elseif($mode==1||$mode==2)
+        else
         {
             if($mode==1)
             { 
@@ -270,7 +270,7 @@ private static function extractCoordinatesFromText($coord_text){
  */
 private static function getHeader($id){
 
-    $js = "var map".$id." = new L.map('map".$id."');\n";
+    $js = "var map".$id." = new L.map('map".$id."', {zoomSnap: 0.5});\n";
     //Set Layer
     $js .= "var tileLayer".$id." = new L.TileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',{
         attribution: '<a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap contributors</a>',
@@ -392,7 +392,10 @@ public static function makeLeagueMap($params, $queriedEntries, $id){
     // Add cluster to map
     $js .= "map".$id.".addLayer(markers);\n";
     // Set zoom and fit map to markers 
-    $js .= "map".$id.".fitBounds(L.latLngBounds(coordinateArray));\n";
+    //Get first the padding
+    $padding = $params->get('padding', 10);
+    $js .= "map".$id.".fitBounds(L.latLngBounds(coordinateArray), {padding: [$padding, $padding]});\n";
+
 
     //Apply module settings for scrolling and dragging
     if($params->get('scrollWheelZoom', 0) == 1){
@@ -452,8 +455,8 @@ public static function makeClubMap($params, $queriedEntries, $id){
     $js .= "map".$id.".addLayer(markers);\n";
     // Set zoom and fit map to markers 
     //Get first the padding
-    $padding = "[$params->get('padding', 10), $params->get('padding', 10)]";
-    $js .= "map".$id.".fitBounds(L.latLngBounds(coordinateArray, {padding: $padding}));\n";
+    $padding = $params->get('padding', 10);
+    $js .= "map".$id.".fitBounds(L.latLngBounds(coordinateArray), {padding: [$padding, $padding]});\n";
 
     //Apply module settings for scrolling and dragging
     if($params->get('scrollWheelZoom', 0) == 1){
