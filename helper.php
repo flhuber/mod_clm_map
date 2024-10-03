@@ -204,9 +204,10 @@ class ModCLMMapHelper
             foreach ($list as $entry){
                 if($params->get('grouping_vereine')==1)
                 {$prefix = substr($entry->zps, 0, 3);}
+                elseif($params->get('grouping_vereine')==2)
+                {$prefix = substr($entry->zps, 0, 2);}
                 else
                 {$prefix = substr($entry->zps, 0, 1);}
-
                 $entry->color = $groupingArray[$prefix];
             }
         }
@@ -450,7 +451,9 @@ public static function makeClubMap($params, $queriedEntries, $id){
     // Add cluster to map
     $js .= "map".$id.".addLayer(markers);\n";
     // Set zoom and fit map to markers 
-    $js .= "map".$id.".fitBounds(L.latLngBounds(coordinateArray));\n";
+    //Get first the padding
+    $padding = "[$params->get('padding', 10), $params->get('padding', 10)]";
+    $js .= "map".$id.".fitBounds(L.latLngBounds(coordinateArray, {padding: $padding}));\n";
 
     //Apply module settings for scrolling and dragging
     if($params->get('scrollWheelZoom', 0) == 1){
