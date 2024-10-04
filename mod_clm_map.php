@@ -19,32 +19,44 @@ require_once dirname(__FILE__) . '/helper.php';
 
 // Include scripts and set style 
 $document = JFactory::getDocument();
-$document->addStyleSheet(JURI::root(true) . '/modules/mod_clm_map/leaflet/leaflet.css');
-$document->addScript(JURI::root(true) . '/modules/mod_clm_map/leaflet/leaflet.js');
+
+$document->addScript(JURI::root(true) . '/modules/mod_clm_map/lib/jsFunctions.js');
+$document->addScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
+$document->addStyleSheet('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+$document->addStyleSheet('https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css');
+$document->addStyleSheet('https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css');
+$document->addScript('https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js');
+
 $document->addStyleDeclaration( modCLMMapHelper::style($params, $module->id) );
 
-/**
- * This code retrieves the season ID and fetches the club list based on the season ID.
- * It then checks if the club list is null or not. If it is null, it displays an error message.
- * If the club list is not null, it calls the makeMap function to generate the JavaScript code for the map.
- * Finally, it includes the layout file for the mod_clm_map module.
- */
 
-// Get Season ID
-$seasonID = modCLMMapHelper::getSeasonID();
-
-if (is_null($seasonID) == false) {
-    // Fetch Club Names
-    $clubList = modCLMMapHelper::getClubList($seasonID);
-
-    // Map settings
-    if ($clubList == null) {
-        $js = "console.log('CLM Map: Could not retrieve clubs with set coordinates!');";
-    } else {
-        $js = modCLMMapHelper::makeMap($params, $seasonID, $clubList, $module->id);
+// Get mode
+$moduleMode = $params->get('module_mode');
+if ($moduleMode == '0') // Show teams of leagues
+{
+    //Plausability check
+    $selectedEntries = $params->get('liga');
+    if ($selectedEntries == null) {
+        $js = "addLogToDiv('CLM Map: No leagues selected!',$module->id);";
     }
-} else {
-    $js = "console.log('CLM Map: Could not retrieve a published and active season!');</script>";
+    else{
+        $queriedEntries = modCLMMapHelper::getTeamList($selectedEntries, $params);
+        if ($queriedEntries == null) {
+            $js = "addLogToDiv('CLM Map: Could not retrieve teams with set coordinates!',$module->id);";
+        } else {
+            $js = modCLMMapHelper::makeLeagueMap($params, $queriedEntries, $module->id);
+        }
+    }
+
+}
+else //Show clubs
+{
+    $queriedEntries = modCLMMapHelper::getClubList($params);
+    if ($queriedEntries == null) {
+        $js = "addLogToDiv('CLM Map: Could not retrieve clubs with set coordinates!',$module->id);";
+    } else {
+        $js = modCLMMapHelper::makeClubMap($params, $queriedEntries, $module->id);
+    }
 }
 
 // Darstellen
