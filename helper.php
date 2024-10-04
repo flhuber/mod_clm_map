@@ -266,11 +266,15 @@ private static function extractCoordinatesFromText($coord_text){
  * Retrieves the header JavaScript code for the map.
  *
  * @param int $id The ID of the map.
+ * @param object $params - Module settings.
  * @return string The JavaScript code for the header.
  */
-private static function getHeader($id){
+private static function getHeader($id, $params){
 
-    $js = "var map".$id." = new L.map('map".$id."', {zoomSnap: 0.5});\n";
+    $zoomSnap = $params->get('zoomSnap', 0.5);
+    $zoomDelta = $params->get('zoomDelta', 1);
+    $zoom = $params->get('zooming', 0)? 'true' : 'false';
+    $js = "var map".$id." = new L.map('map".$id."', {zoomSnap: $zoomSnap, zoomControl:$zoom, zoomDelta:$zoomDelta});\n";
     //Set Layer
     $js .= "var tileLayer".$id." = new L.TileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',{
         attribution: '<a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap contributors</a>',
@@ -362,7 +366,7 @@ private static function getColorArray($num){
 public static function makeLeagueMap($params, $queriedEntries, $id){
     $localURL = JUri::base();
 
-    $js = self::getHeader($id);
+    $js = self::getHeader($id, $params);
 
     // Add Markers for teams
     foreach ($queriedEntries as $entry){
@@ -398,6 +402,11 @@ public static function makeLeagueMap($params, $queriedEntries, $id){
 
 
     //Apply module settings for scrolling and dragging
+    if($params->get('zooming', 0) == 1){
+        $js .= "map".$id.".doubleClickZoom.enable();\n";
+    } else {
+        $js .= "map".$id.".doubleClickZoom.disable();\n";
+    }
     if($params->get('scrollWheelZoom', 0) == 1){
         $js .= "map".$id.".scrollWheelZoom.enable();\n";
     } else {
@@ -423,7 +432,7 @@ public static function makeLeagueMap($params, $queriedEntries, $id){
 public static function makeClubMap($params, $queriedEntries, $id){
     $localURL = JUri::base();
 
-    $js = self::getHeader($id);
+    $js = self::getHeader($id, $params);
 
     // Add Markers for Clubs
     foreach ($queriedEntries as $entry){
@@ -459,6 +468,11 @@ public static function makeClubMap($params, $queriedEntries, $id){
     $js .= "map".$id.".fitBounds(L.latLngBounds(coordinateArray), {padding: [$padding, $padding]});\n";
 
     //Apply module settings for scrolling and dragging
+    if($params->get('zooming', 0) == 1){
+        $js .= "map".$id.".doubleClickZoom.enable();\n";
+    } else {
+        $js .= "map".$id.".doubleClickZoom.disable();\n";
+    }
     if($params->get('scrollWheelZoom', 0) == 1){
         $js .= "map".$id.".scrollWheelZoom.enable();\n";
     } else {
