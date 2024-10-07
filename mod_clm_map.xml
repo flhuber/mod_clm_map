@@ -2,9 +2,9 @@
 <extension type="module" version="3.1.0" client="site" method="upgrade">
     <name>CLM Map Modul</name>
     <author>CLM Team</author>
-    <version>0.3.2</version>
+    <version>0.3.3</version>
     <description>MOD_CLM_MAP_DESCRIPTION</description>
-    <creationDate>04.10.2024</creationDate>
+    <creationDate>07.10.2024</creationDate>
     <license>GNU/GPL</license>
 
     <!-- Frontend files-->
@@ -133,13 +133,16 @@
                 showon="module_mode:0"
                 />
 
+
             <field
                 name="grouping_liga"
-                type="checkbox"
+                type="radio"
+                default="1"
                 label="MOD_CLM_MAP_MODE_GROUPING_LEAGUE"
-                value="1"
-                showon="module_mode:0"
-            />   
+                showon="module_mode:0">
+                <option value="0">MOD_CLM_MAP_GROUPING_LEAGUE_NO</option>
+                <option value="1">MOD_CLM_MAP_GROUPING_LEAGUE_YES</option>
+            </field>
 
         <field
                 name="grouping_vereine" 
@@ -164,7 +167,8 @@
                 query="SELECT DISTINCT d.Verband AS id, d.Verbandname AS name
                         FROM #__clm_vereine v
                         JOIN #__clm_dwz_verbaende d
-                        ON SUBSTRING(v.zps, 1, 3) = d.Verband"
+                        ON SUBSTRING(v.zps, 1, 3) = d.Verband
+                        WHERE (SUBSTRING(d.Uebergeordnet, 2, 2) != '00');"
                 key_field="id"
                 value_field="name">
         </field>
@@ -173,14 +177,14 @@
                 type="sql" 
                 default="0" 
                 multiple="true"
-                label="MOD_CLM_MAP_MODE_GROUPING_BEZIRK_SELECT" 
+                label="MOD_CLM_MAP_MODE_GROUPING_REGION_SELECT" 
                 description=""
                 showon="grouping_vereine:2[AND]module_mode:1"
-                query="SELECT DISTINCT d.LV AS id, d.Verbandname AS name
+                query="SELECT DISTINCT d.Verband AS id, d.Verbandname AS name
                         FROM #__clm_vereine v
                         JOIN #__clm_dwz_verbaende d
                         ON SUBSTRING(v.zps, 1, 2) = SUBSTRING(d.Verband, 1, 2)
-                        WHERE SUBSTRING(d.Uebergeordnet,2, 2) = '00';"
+                        WHERE (SUBSTRING(d.Uebergeordnet,2, 2) = '00' AND d.Uebergeordnet != '000');"
                 key_field="id"
                 value_field="name">
         </field>
