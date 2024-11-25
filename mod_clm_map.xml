@@ -2,7 +2,7 @@
 <extension type="module" version="3.1.0" client="site" method="upgrade">
     <name>CLM Map Modul</name>
     <author>CLM Team</author>
-    <version>0.3.3</version>
+    <version>1.0.0</version>
     <description>MOD_CLM_MAP_DESCRIPTION</description>
     <creationDate>07.10.2024</creationDate>
     <license>GNU/GPL</license>
@@ -97,19 +97,34 @@
                 description="MOD_CLM_MAP_MAP_ZOOM_DELTA_DESC"
                 value="1"
             /> 
-            <field name="popup_mode" type="radio" default="1" label="MOD_CLM_MAP_POPUP_MODE">
+            <field
+                name="popup_mode"
+                type="radio"
+                default="1"
+                label="MOD_CLM_MAP_POPUP_MODE"
+                description="MOD_CLM_MAP_POPUP_MODE_DESC">
                 <option value="0">MOD_CLM_MAP_POPUP_MODE_MOUSEOVER</option>
                 <option value="1">MOD_CLM_MAP_POPUP_MODE_CLICK</option>
             </field>
 
             <field type="spacer" name="spacerModule" label="MOD_CLM_MAP_MODULE_CONFIG_HEADER" class="text"/>
 
-            <field name="remove_coordinates" type="radio" default="1" label="MOD_CLM_MAP_REMOVE_COORDINATES">
+            <field
+                name="remove_coordinates"
+                type="radio"
+                default="1"
+                label="MOD_CLM_MAP_REMOVE_COORDINATES"
+                description="MOD_CLM_MAP_REMOVE_COORDINATES_DESC">
                 <option value="0">MOD_CLM_MAP_REMOVE_NO</option>
                 <option value="1">MOD_CLM_MAP_REMOVE_YES</option>
             </field>
 
-            <field name="module_mode" type="radio" default="1" label="MOD_CLM_MAP_MODULE_MODE">
+            <field
+                name="module_mode"
+                type="radio"
+                default="1"
+                label="MOD_CLM_MAP_MODULE_MODE"
+                description="MOD_CLM_MAP_MODULE_MOD_DESC">
                 <option value="0">MOD_CLM_MAP_TEAM</option>
                 <option value="1">MOD_CLM_MAP_CLUBS</option>
             </field>
@@ -131,6 +146,7 @@
                 key_field="id"
                 value_field="name"
                 showon="module_mode:0"
+                description="MOD_CLM_MAP_MODULE_LEAGUE_DESC"
                 />
 
 
@@ -139,6 +155,7 @@
                 type="radio"
                 default="1"
                 label="MOD_CLM_MAP_MODE_GROUPING_LEAGUE"
+                description="MOD_CLM_MAP_MODE_GROUPING_LEAGUE_DESC"
                 showon="module_mode:0">
                 <option value="0">MOD_CLM_MAP_GROUPING_LEAGUE_NO</option>
                 <option value="1">MOD_CLM_MAP_GROUPING_LEAGUE_YES</option>
@@ -149,7 +166,7 @@
                 type="list" 
                 default="0" 
                 label="MOD_CLM_MAP_MODE_GROUPING" 
-                description=""
+                description="MOD_CLM_MAP_MODE_GROUPING_DESC"
                 showon="module_mode:1">
                 <option value="0">MOD_CLM_MAP_MODE_GROUPING_NO</option>
                 <option value="1">MOD_CLM_MAP_MODE_GROUPING_BEZIRK</option>
@@ -162,7 +179,7 @@
                 default="0" 
                 multiple="true"
                 label="MOD_CLM_MAP_MODE_GROUPING_BEZIRK_SELECT" 
-                description=""
+                description="MOD_CLM_MAP_MODE_GROUPING_BEZIRK_SELECT_DESC"
                 showon="grouping_vereine:1[AND]module_mode:1"
                 query="SELECT DISTINCT d.Verband AS id, d.Verbandname AS name
                         FROM #__clm_vereine v
@@ -178,7 +195,7 @@
                 default="0" 
                 multiple="true"
                 label="MOD_CLM_MAP_MODE_GROUPING_REGION_SELECT" 
-                description=""
+                description="MOD_CLM_MAP_MODE_GROUPING_REGION_SELECT_DESC"
                 showon="grouping_vereine:2[AND]module_mode:1"
                 query="SELECT DISTINCT d.Verband AS id, d.Verbandname AS name
                         FROM #__clm_vereine v
@@ -194,7 +211,7 @@
                 default="0" 
                 multiple="true"
                 label="MOD_CLM_MAP_MODE_GROUPING_LAND_SELECT" 
-                description=""
+                description="MOD_CLM_MAP_MODE_GROUPING_LAND_SELECT_DESC"
                 showon="grouping_vereine:3[AND]module_mode:1"
                 query="SELECT DISTINCT d.LV AS id, d.Verbandname AS name
                         FROM #__clm_vereine v
