@@ -5,7 +5,7 @@ Vereinskarte für CLM
 ## Voraussetzungen
 
 ### CLM-Version
-Für die Verwendung des CLM Kartenmoduls wird mind. CLM 4.3.1 vorausgesetzt. 
+Für die Verwendung des CLM Kartenmoduls wird mind. CLM 4.2.1 vorausgesetzt. 
 
 ### Koordinaten
 Es werden nur Adressen angezeigt, für welche Koordinaten hinterlegt sind. Dafür muss in der CLM-Hauptkomponente der Kartendienst unter Einstellungen->Externe Dienste->Kartendienste aktiviert sein. Wurde diese Funktion erstmals aktiviert, so sind noch keine Koordinaten der Vereins- oder Spiellokale hinterlegt und ein manuelles Anstoßen der Abfrage ist notwendig. Dafür in der CLM-Hauptkomponente unter Vereine bzw. Mannschaften alle Vereine selektieren und auf den Button "Kartendaten aktualisieren" klicken. Vereine/Mannschaften für die keine Auflösung der Adresse möglich war werden angezeigt und die Adresse muss korrigiert werden.
